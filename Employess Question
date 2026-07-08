@@ -1,0 +1,77 @@
+import pandas as pd
+
+class EmployeeDashboard:
+    def __init__(self):
+        self.df = pd.read_csv("Employee.csv")
+
+    def search_employee(self):
+        name = input("Enter Employee Name: ")
+        result = self.df[self.df["Name"].str.lower() == name.lower()]
+
+        if len(result) > 0:
+            print(result)
+        else:
+            print("Employee not found.")
+
+    def salary_between(self):
+        result = self.df[(self.df["Salary"] >= 40000) &
+                         (self.df["Salary"] <= 60000)]
+
+        if len(result) > 0:
+            print(result)
+        else:
+            print("No employees found.")
+
+    def top_three_salary(self):
+        result = self.df.sort_values("Salary", ascending=False).head(3)
+
+        print("\nTop 3 Highest Paid Employees")
+        print(result)
+
+    def average_experience(self):
+        print("\nAverage Experience Department-wise")
+        print(self.df.groupby("Department")["Experience"].mean())
+
+    def employee_count(self):
+        print("\nEmployee Count Department-wise")
+        print(self.df.groupby("Department").size())
+
+    def menu(self):
+
+        while True:
+
+            print("\n===== EMPLOYEE DASHBOARD =====")
+            print("1. Search Employee by Name")
+            print("2. Display Employees Whose Salary Lies Between ₹40,000 and ₹60,000")
+            print("3. Display the Top 3 Highest Paid Employees")
+            print("4. Display the Average Experience of Each Department")
+            print("5. Count Employees Department-wise")
+            print("6. Exit")
+
+            choice = int(input("Enter your choice: "))
+
+            if choice == 1:
+                self.search_employee()
+
+            elif choice == 2:
+                self.salary_between()
+
+            elif choice == 3:
+                self.top_three_salary()
+
+            elif choice == 4:
+                self.average_experience()
+
+            elif choice == 5:
+                self.employee_count()
+
+            elif choice == 6:
+                print("Thank You")
+                break
+
+            else:
+                print("Invalid Choice")
+
+
+obj = EmployeeDashboard()
+obj.menu()
